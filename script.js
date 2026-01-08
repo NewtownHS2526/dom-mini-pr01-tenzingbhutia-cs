@@ -1,35 +1,59 @@
 console.log("Script Running");
 
-const changePosition = (horse, position) => (position <= 5 ? horse.style.setProperty('grid-column', position) : null);
+const changePosition = (horse, position) => {
+  if (position <= 5) {
+    horse.style.setProperty("grid-column", position);
+  }
+};
 
 let blue_position = 1;
 let pink_position = 1;
 let brown_position = 1;
 
-
-// Query Selectors Here
+// Query Selectors
 const blueButton = document.querySelector("#blue-button");
+const brownButton = document.querySelector("#brown-button");
+const pinkButton = document.querySelector("#pink-button");
 const blueHorse = document.querySelector("#blue-horse");
+const brownHorse = document.querySelector("#brown-horse");
+const pinkHorse = document.querySelector("#pink-horse");
+const winnerButton = document.querySelector("#winner");
 
+const handleWin = (color) => {
+  winnerButton.textContent = `${color} wins the race `;
 
-
-// OnClick Functions Here
-const advanceBlue = (e) => {
-  blue_position += 1;
-  changePosition(blueHorse, blue_position);
+  blueButton.disabled = true;
+  pinkButton.disabled = true;
+  brownButton.disabled = true;
 };
-const advancePink = (e) => {
 
-};
-
-
-
-// Check for a winner
+// Check Winner
 const checkWinner = (position, color) => {
-
+  if (position >= 5) {
+    handleWin(color);
+  }
 };
 
+// Advance Functions
+const advanceBlue = () => {
+  blue_position++;
+  changePosition(blueHorse, blue_position);
+  checkWinner(blue_position, "Blue");
+};
 
+const advancePink = () => {
+  pink_position++;
+  changePosition(pinkHorse, pink_position);
+  checkWinner(pink_position, "Pink");
+};
 
-// Event Listeners Here
+const advanceBrown = () => {
+  brown_position++;
+  changePosition(brownHorse, brown_position);
+  checkWinner(brown_position, "Brown");
+};
+
+// Event Listeners
 blueButton.addEventListener("click", advanceBlue);
+pinkButton.addEventListener("click", advancePink);
+brownButton.addEventListener("click", advanceBrown);
